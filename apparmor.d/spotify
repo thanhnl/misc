@@ -1,0 +1,80 @@
+# vim:syntax=apparmor
+#include <tunables/global>
+
+/opt/spotify/spotify-client/spotify {
+# /usr/bin/spotify {
+  #include <abstractions/base>
+  #include <abstractions/dbus>
+  #include <abstractions/dbus-session>
+  #include <abstractions/dbus-strict>
+  #include <abstractions/dconf>
+  #include <abstractions/audio>
+  #include <abstractions/nameservice>
+  #include <abstractions/gnome>
+  #include <abstractions/private-files>
+  # Networking
+  network inet dgram,
+  network inet stream,
+
+  # Home folder
+  owner @{HOME}/Music/ r,
+  owner @{HOME}/Music/** r,
+  owner @{HOME}/.config/spotify/ rw,
+  owner @{HOME}/.config/spotify/** rwk,
+  owner @{HOME}/.cache/spotify/ rw,
+  owner @{HOME}/.cache/spotify/** rwk,
+  owner @{HOME}/.local/share/spotify/ rw,
+  owner @{HOME}/.local/share/spotify/** rwk,
+
+  # Application and libraries
+  /opt/spotify/spotify-client/** mr,
+  /opt/spotify/spotify-client/Data/SpotifyHelper ixr,
+  /usr/share/glib-*/schemas/** r,
+
+  # dconf
+  owner /run/user/*/dconf/     w,
+  owner /run/user/*/dconf/user rw,
+
+  # GUI
+  /etc/xdg/Trolltech.conf rk,
+  /etc/xdg/sni-qt.conf kr,
+  owner @{HOME}/.config/Trolltech.conf kr,
+  owner @{HOME}/.gtkrc-2.0.mine r,
+  owner @{HOME}/.icons/** r,
+
+  # Chromium
+  ptrace (trace) peer=@{profile_name},
+
+  owner @{HOME}/.pki/nssdb/* rwk,
+
+  owner /{dev,run}/shm/{,.}org.chromium.* mrw,
+
+  @{PROC}/sys/kernel/shmmax r,
+  owner @{PROC}/[0-9]*/auxv r,
+  owner @{PROC}/[0-9]*/cmdline r,
+  owner @{PROC}/[0-9]*/fd/ r,
+  owner @{PROC}/[0-9]*/io r,
+  owner @{PROC}/[0-9]*/oom_{,score_}adj w,
+  owner @{PROC}/[0-9]*/smaps r,
+  owner @{PROC}/[0-9]*/stat r,
+  owner @{PROC}/[0-9]*/statm r,
+  owner @{PROC}/[0-9]*/status r,
+  owner @{PROC}/[0-9]*/task/ r,
+  owner @{PROC}/[0-9]*/task/[0-9]*/stat r,
+
+  /etc/udev/udev.conf r,
+  deny /run/udev/data/** r,
+  /sys/bus/pci/devices/ r,
+  /sys/devices/system/cpu/cpu*/cpufreq/cpuinfo_max_freq r,
+  /sys/devices/pci[0-9]*/**/class r,
+  /sys/devices/pci[0-9]*/**/device r,
+  /sys/devices/pci[0-9]*/**/irq r,
+  /sys/devices/pci[0-9]*/**/resource r,
+  /sys/devices/pci[0-9]*/**/vendor r,
+  /sys/devices/pci[0-9]*/**/removable r,
+  /sys/devices/pci[0-9]*/**/uevent r,
+  /sys/devices/pci[0-9]*/**/block/**/size r,
+  /sys/devices/virtual/block/**/removable r,
+  /sys/devices/virtual/block/**/uevent r,
+  /sys/devices/virtual/block/**/size r,
+}

@@ -1,0 +1,17 @@
+# vim:syntax=apparmor
+# Site-specific additions and overrides for usr.bin.firefox.
+# For more details, please see /etc/apparmor.d/local/README.
+#include <abstractions/private-files>
+owner @{HOME}/Documents/ r,
+owner @{HOME}/Documents/** rw,
+owner @{HOME}/Pictures/ r,
+owner @{HOME}/Pictures/** rw,
+owner @{HOME}/Music/ r,
+owner @{HOME}/Music/** rw,
+owner @{HOME}/Videos/ r,
+owner @{HOME}/Videos/** rw,
+owner @{HOME}/.mailcap r,
+owner @{HOME}/.icons/** r,
+owner @{HOME}/.cache/gstreamer-1.0/** rw,
+owner @{HOME}/.scim/* r,
+

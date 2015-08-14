@@ -1,0 +1,25 @@
+# vim:syntax=apparmor 
+# Last Modified: Thu Jul  2 16:54:45 2015
+#include <tunables/global>
+
+/opt/Telegram/Telegram {
+  #include <abstractions/base>
+  #include <abstractions/lightdm>
+  #include <abstractions/nameservice>
+  #include <abstractions/private-files>
+
+  owner @{HOME}/.TelegramDesktop/* r,
+  owner @{HOME}/.TelegramDesktop/** rwkl,
+  owner @{HOME}/.TelegramDesktop/Updater mix,
+  owner @{HOME}/.TelegramDesktop/Telegram mix,
+  owner /opt/Telegram/** rwk,
+  owner @{HOME}/Downloads/** rwk,
+  owner @{HOME}/ r,
+  owner @{HOME}/.Xauthority r,
+  owner @{HOME}/.config/pulse/cookie r,
+  owner @{HOME}/.icons/default/index.theme r,
+  owner @{HOME}/.local/share/mime/mime.cache r,
+  owner @{HOME}/.local/share/mime/types r,
+  owner /tmp/* w,
+
+}
